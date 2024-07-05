@@ -52,14 +52,16 @@ const tempWatchedData = [
 const average = (arr) =>
   arr.reduce((acc, cur, i, arr) => acc + cur / arr.length, 0);
 
+//Structural Component
 export default function App() {
+  const [movies, setMovies] = useState(tempMovieData);
   return (
     <>
-      <NavBar />
+      <NavBar movies={movies} />
       <Main
         tempWatchedData={tempWatchedData}
-        tempMovieData={tempMovieData}
         average={average}
+        movies={movies}
       />
     </>
   );

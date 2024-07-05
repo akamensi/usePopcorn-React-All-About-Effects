@@ -2,12 +2,13 @@ import Logo from "./Logo";
 import NumResults from "./NumResults";
 import Search from "./Search";
 
-const NavBar = () => {
+// Structural Component
+const NavBar = ({ movies }) => {
   return (
     <nav className="nav-bar">
       <Logo />
       <Search />
-      <NumResults />
+      <NumResults movies={movies} />
     </nav>
   );
 };

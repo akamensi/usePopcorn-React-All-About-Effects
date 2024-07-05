@@ -1,10 +1,11 @@
 import ListBox from "./ListBox";
 import WatchedBox from "./WatchedBox";
 
-const Main = ({ tempWatchedData, tempMovieData, average }) => {
+//Structural Component
+const Main = ({ tempWatchedData, average, movies }) => {
   return (
     <main className="main">
-      <ListBox tempMovieData={tempMovieData} />
+      <ListBox movies={movies} />
       <WatchedBox tempWatchedData={tempWatchedData} average={average} />
     </main>
   );

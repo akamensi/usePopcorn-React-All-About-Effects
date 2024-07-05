@@ -1,5 +1,6 @@
 import React from "react";
 
+//Presentationnal Component or statslee component
 const Movie = ({ movie }) => {
   return (
     <li>
