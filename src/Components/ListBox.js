@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 
+/*We no longer need this component because we replace it with a Reusable Component "Box"*/
 const ListBox = ({ children }) => {
   const [isOpen1, setIsOpen1] = useState(true);
   return (
