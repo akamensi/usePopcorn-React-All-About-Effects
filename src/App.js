@@ -1,6 +1,14 @@
 import { useState } from "react";
 import NavBar from "./Components/NavBar";
 import Main from "./Components/Main";
+import Logo from "./Components/Logo";
+import Search from "./Components/Search";
+import NumResults from "./Components/NumResults";
+import ListBox from "./Components/ListBox";
+import WatchedBox from "./Components/WatchedBox";
+import MovieList from "./Components/MovieList";
+import WatchedMovieList from "./Components/WatchedMovieList";
+import WatchedSummary from "./Components/WatchedSummary";
 
 const tempMovieData = [
   {
@@ -55,14 +63,23 @@ const average = (arr) =>
 //Structural Component
 export default function App() {
   const [movies, setMovies] = useState(tempMovieData);
+  const [watched, setWatched] = useState(tempWatchedData);
   return (
     <>
-      <NavBar movies={movies} />
-      <Main
-        tempWatchedData={tempWatchedData}
-        average={average}
-        movies={movies}
-      />
+      <NavBar>
+        <Logo />
+        <Search />
+        <NumResults movies={movies} />
+      </NavBar>
+      <Main tempWatchedData={tempWatchedData} average={average}>
+        <ListBox>
+          <MovieList movies={movies} />
+        </ListBox>
+        <WatchedBox>
+          <WatchedSummary watched={watched} average={average} />
+          <WatchedMovieList watched={watched} />
+        </WatchedBox>
+      </Main>
     </>
   );
 }

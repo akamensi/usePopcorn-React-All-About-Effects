@@ -1,5 +1,3 @@
-import React from "react";
-
 //Presentationnal Component
 const NumResults = ({ movies }) => {
   return (
