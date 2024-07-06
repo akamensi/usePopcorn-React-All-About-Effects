@@ -74,6 +74,7 @@ export default function App() {
         <Box>
           <MovieList movies={movies} />
         </Box>
+        {/*<Box element={<MovieList movies={movies} />} /> // same like {children} and {children are better}  */}
         <Box>
           <WatchedSummary watched={watched} average={average} />
           <WatchedMovieList watched={watched} />
