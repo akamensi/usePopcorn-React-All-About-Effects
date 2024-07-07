@@ -66,16 +66,32 @@ const KEY = "f96856b";
 
 //Structural Component
 export default function App() {
+  const [query, setQuery] = useState("");
   const [movies, setMovies] = useState([]);
   const [watched, setWatched] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState("");
-  const query = "batman";
+  const temQuery = "batman";
+
+  /*  useEffect(() => {
+    console.log("After initial render");
+  }, []);
+
+  useEffect(() => {
+    console.log("After every render");
+  });
+
+  console.log("During render");
+
+  useEffect(() => {
+    console.log("After the query state change");
+  }, [query]); */
 
   useEffect(() => {
     const fetchMovies = async () => {
       try {
         setIsLoading(true);
+        setError("");
         const res = await fetch(
           `http://www.omdbapi.com/?apikey=${KEY}&s=${query}`
         );
@@ -94,14 +110,19 @@ export default function App() {
         setIsLoading(false);
       }
     };
+    if (query.length < 3) {
+      setMovies([]);
+      setError("");
+      return;
+    }
     fetchMovies();
-  }, []);
+  }, [query]);
 
   return (
     <>
       <NavBar>
         <Logo />
-        <Search />
+        <Search query={query} setQuery={setQuery} />
         <NumResults movies={movies} />
       </NavBar>
       <Main tempWatchedData={tempWatchedData} average={average}>
