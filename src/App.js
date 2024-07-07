@@ -10,6 +10,7 @@ import WatchedSummary from "./Components/WatchedSummary";
 import Box from "./Components/Box";
 import Loader from "./Components/Loader";
 import ErrorMessage from "./Components/ErrorMessage";
+import MovieDetails from "./Components/MovieDetails";
 
 // eslint-disable-next-line no-unused-vars
 const tempMovieData = [
@@ -71,7 +72,7 @@ export default function App() {
   const [watched, setWatched] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState("");
-  const temQuery = "batman";
+  const [selectedId, setSelectedId] = useState(null);
 
   /*  useEffect(() => {
     console.log("After initial render");
@@ -86,6 +87,14 @@ export default function App() {
   useEffect(() => {
     console.log("After the query state change");
   }, [query]); */
+
+  function handleSelectMovie(id) {
+    setSelectedId((selectedId) => (id === selectedId ? null : id));
+  }
+
+  function handleCloseMovie() {
+    setSelectedId(null);
+  }
 
   useEffect(() => {
     const fetchMovies = async () => {
@@ -129,13 +138,24 @@ export default function App() {
         <Box>
           {/* {isLoading ? <Loader /> : <MovieList movies={movies} />} */}
           {isLoading && <Loader />}
-          {!isLoading && !error && <MovieList movies={movies} />}
+          {!isLoading && !error && (
+            <MovieList movies={movies} onSelectMovie={handleSelectMovie} />
+          )}
           {error && <ErrorMessage message={error} />}
         </Box>
         {/*<Box element={<MovieList movies={movies} />} /> // same like {children} and {children are better}  */}
         <Box>
-          <WatchedSummary watched={watched} average={average} />
-          <WatchedMovieList watched={watched} />
+          {selectedId ? (
+            <MovieDetails
+              selectedId={selectedId}
+              onCloseMovie={handleCloseMovie}
+            />
+          ) : (
+            <>
+              <WatchedSummary watched={watched} average={average} />
+              <WatchedMovieList watched={watched} />{" "}
+            </>
+          )}
         </Box>
       </Main>
     </>
