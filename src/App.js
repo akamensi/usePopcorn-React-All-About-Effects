@@ -13,7 +13,7 @@ import ErrorMessage from "./Components/ErrorMessage";
 import MovieDetails from "./Components/MovieDetails";
 
 // eslint-disable-next-line no-unused-vars
-const tempMovieData = [
+/* const tempMovieData = [
   {
     imdbID: "tt1375666",
     Title: "Inception",
@@ -58,7 +58,7 @@ const tempWatchedData = [
     imdbRating: 8.5,
     userRating: 9,
   },
-];
+]; */
 
 const average = (arr) =>
   arr.reduce((acc, cur, i, arr) => acc + cur / arr.length, 0);
@@ -67,7 +67,7 @@ const KEY = "f96856b";
 
 //Structural Component
 export default function App() {
-  const [query, setQuery] = useState("");
+  const [query, setQuery] = useState("batman");
   const [movies, setMovies] = useState([]);
   const [watched, setWatched] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
@@ -94,6 +94,14 @@ export default function App() {
 
   function handleCloseMovie() {
     setSelectedId(null);
+  }
+
+  function handleAddWatched(movie) {
+    setWatched((watched) => [...watched, movie]);
+  }
+
+  function handleDeleteWatched(id) {
+    setWatched((watched) => watched.filter((movie) => movie.imdbID !== id));
   }
 
   useEffect(() => {
@@ -134,7 +142,7 @@ export default function App() {
         <Search query={query} setQuery={setQuery} />
         <NumResults movies={movies} />
       </NavBar>
-      <Main tempWatchedData={tempWatchedData} average={average}>
+      <Main average={average}>
         <Box>
           {/* {isLoading ? <Loader /> : <MovieList movies={movies} />} */}
           {isLoading && <Loader />}
@@ -149,11 +157,16 @@ export default function App() {
             <MovieDetails
               selectedId={selectedId}
               onCloseMovie={handleCloseMovie}
+              onAddWatched={handleAddWatched}
+              watched={watched}
             />
           ) : (
             <>
               <WatchedSummary watched={watched} average={average} />
-              <WatchedMovieList watched={watched} />{" "}
+              <WatchedMovieList
+                watched={watched}
+                onDeleteWatched={handleDeleteWatched}
+              />
             </>
           )}
         </Box>
