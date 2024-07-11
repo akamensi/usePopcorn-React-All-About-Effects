@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import NavBar from "./Components/NavBar";
 import Main from "./Components/Main";
 import Logo from "./Components/Logo";
@@ -12,6 +12,7 @@ import Loader from "./Components/Loader";
 import ErrorMessage from "./Components/ErrorMessage";
 import MovieDetails from "./Components/MovieDetails";
 import { useMovies } from "./customHooks/useMovies";
+import { useLocalSorageState } from "./customHooks/useLocalSorageState";
 
 const average = (arr) =>
   arr.reduce((acc, cur, i, arr) => acc + cur / arr.length, 0);
@@ -23,12 +24,15 @@ export default function App() {
   //the customHook useMovies
   const { movies, isLoading, error } = useMovies(query, handleCloseMovie);
 
+  //the customHokk
+  const [watched, setWatched] = useLocalSorageState([], "watched");
+
   //const [watched, setWatched] = useState([]);
   //we can passe a callback function(it must be a pure function with no arguements) in useState(Lazy evaluation)
-  const [watched, setWatched] = useState(() => {
+  /*   const [watched, setWatched] = useState(() => {
     const stored = localStorage.getItem("watched");
     return JSON.parse(stored);
-  });
+  }); */
 
   function handleSelectMovie(id) {
     setSelectedId((selectedId) => (id === selectedId ? null : id));
@@ -47,10 +51,6 @@ export default function App() {
   function handleDeleteWatched(id) {
     setWatched((watched) => watched.filter((movie) => movie.imdbID !== id));
   }
-
-  useEffect(() => {
-    localStorage.setItem("watched", JSON.stringify(watched));
-  }, [watched]);
 
   return (
     <>
